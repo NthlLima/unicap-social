@@ -1,0 +1,7 @@
+type Response {
+    result: String!
+}
+
+type Query {
+    test: Response
+}

@@ -1,0 +1,29 @@
+{
+  "name": "unicap-social",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -w src --exec \"babel-node src --presets env\"",
+    "build": "rimraf dist && babel src -s -D -d dist --presets env",
+    "start": "node dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {    
+    "axios": "^0.19.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "graphql-middleware": "^4.0.2",
+    "graphql-tools": "^4.0.6",
+    "graphql-yoga": "^1.18.3",
+    "mongoose": "^5.7.13"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^2.0.1",
+    "rimraf": "^3.0.0"
+  }
+}
