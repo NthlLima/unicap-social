@@ -1,24 +1,21 @@
 const config = require('../configs/unicap.config');
-const { Unicap } = require('./unicap.controller');
+const { getSessionId } = require('../controllers/unicap.controller');
 const axios = require('axios');
 
 module.exports = {
     async login({ matricula, digito ,senha }) {
-        const sessionId = await Unicap.getSessionId();
-
+        const sessionId = await getSessionId();
+        const params = new URLSearchParams();
+        params.append('Matricula', matricula);
+        params.append('Digito', digito);
+        params.append('Senha', senha);
+        params.append('rotina', 1);
+        
         try {
-            const { data } = await axios.post(`${config.url}${sessionId}`, {
-                Matricula: matricula,
-                Digito: digito,
-                Senha: senha,
-                rotina: '1'
-            });
-
-            console.log(data);
+            const { status, data } = await axios.post(`${config.url}${sessionId}`, params);
+            return { result:data };
         } catch (error) {
-            console.error(error);
+            return { result:error };
         }
-
-        return { result:'success'};
     }
 }

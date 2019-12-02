@@ -1,5 +1,4 @@
 const config = require('../configs/unicap.config');
-const auth = require('./auth.controller');
 const axios = require('axios');
 
 const getAction = (html) => {
@@ -20,25 +19,18 @@ const getErros = (data) => {
     }
 }
 
-const Unicap = {
-    async getSessionId() {
-        
-        try {
-            const { data } = await axios.get(config.prefix);
-            return getAction(data);
-        } catch (error) {
-            console.error(error);
-            return error;
-        }
-    },
-    async index() {
-        console.log(auth.login({ matricula: '201413227', digito: '1', senha: '211914'}))
-
-        return { result:'success'};
-    },
+const getSessionId = async() => {
+    try {
+        const { data } = await axios.get(config.prefix);
+        return getAction(data);
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
 }
+
 module.exports = {
     getAction,
     getErros,
-    Unicap
-}
+    getSessionId
+};
