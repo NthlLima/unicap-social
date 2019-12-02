@@ -1,9 +1,9 @@
 // require('dotenv').config();
+const { GraphQLServer } = require('graphql-yoga');
+const path = require('path');
+const cors = require('cors');
 
-import { GraphQLServer } from 'graphql-yoga';
-import path from 'path';
-// import mongoose from 'mongoose';
-import resolvers from './graphql/resolvers.graphql';
+// const mongoose = require('mongoose');
 
 // DATABASE
 // mongoose.connect(
@@ -18,11 +18,12 @@ import resolvers from './graphql/resolvers.graphql';
 
 // SERVER
 const typeDefs = path.resolve(__dirname, './graphql/schema.graphql');
+const resolvers = require('./graphql/resolvers.graphql');
 
 const server = new GraphQLServer({
     typeDefs,
     resolvers,
-    // context: req => ({ ...req })
+    context: req => ({ ...req })
 });
 
 server.express.use(cors());
