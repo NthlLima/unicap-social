@@ -29,8 +29,14 @@ const getSessionId = async() => {
     }
 }
 
+const getName = (html) => {
+    const [ string, name ] = html.match('<th>Nome<\th><td>(.*)<\td><\tr>');
+    return 'name';
+}
+
 module.exports = {
     getAction,
     getErros,
-    getSessionId
+    getSessionId,
+    getName
 };

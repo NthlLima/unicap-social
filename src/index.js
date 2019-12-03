@@ -1,11 +1,11 @@
-// require('dotenv').config();
+require('dotenv').config();
+
 const { GraphQLServer } = require('graphql-yoga');
+const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 
-// const mongoose = require('mongoose');
-
-// DATABASE
+//DATABASE
 // mongoose.connect(
 //     process.env.MONGO_URL,
 //     {
