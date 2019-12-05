@@ -1,4 +1,4 @@
-const { getSessionId, getErros, getName } = require('../controllers/unicap.controller');
+const { getSessionId, getErros, getProfile } = require('../controllers/unicap.controller');
 const config = require('../configs/unicap.config');
 const axios = require('axios');
 
@@ -17,9 +17,10 @@ module.exports = {
             return { result: hasError };
         }
 
-        console.log(getName(data));
+
+        // console.log(await getProfile(data));
         
 
-        return { result:'success' };
+        return { result: await getProfile(data) };
     }
 }

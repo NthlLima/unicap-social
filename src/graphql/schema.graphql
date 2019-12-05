@@ -1,5 +1,5 @@
 type Response {
-    result: String!
+    result: [String]!
 }
 
 type Query {
