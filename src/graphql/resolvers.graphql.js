@@ -3,6 +3,7 @@ const Auth = require('../controllers/auth.controller');
 
 module.exports = {
     Query: {
-        test: (_) => Auth.login({ matricula: '201413227', digito: '1', senha: '211914'}),
+        login: (_, { matricula, digito, senha }) => Auth.login({ matricula, digito, senha }),
+        test: (_, { session }) => Auth.test({ session }),
     },
 }

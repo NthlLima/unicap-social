@@ -6,15 +6,16 @@ const path = require('path');
 const cors = require('cors');
 
 //DATABASE
-// mongoose.connect(
-//     process.env.MONGO_URL,
-//     {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true
-//     }
-// );
+mongoose.connect(
+    process.env.MONGO_URL,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }
+);
 
-// mongoose.set('useCreateIndex', true);
+mongoose.set('useCreateIndex', true);
+console.log('Database Connected');
 
 // SERVER
 const typeDefs = path.resolve(__dirname, './graphql/schema.graphql');

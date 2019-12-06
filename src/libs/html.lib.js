@@ -65,10 +65,48 @@ const getForm = (html) => {
     return readLines(formatted);
 }
 
+const getBetweenArray = (array, startString, endString, loops = 1) => {
+    const between = [];
+    let insert = false, strings = 0;
+
+    array.map((current) => {
+        if(current === startString) {
+            insert = true;
+            strings++;
+        }
+
+        if(insert && strings <= loops) {
+            between.push(current);
+        }
+
+        if(current === endString) insert = false;
+    });
+
+    return between;
+}
+
+const getArrayWithoutTags = (array) => {
+    const without = [];
+
+    array.forEach((current) => {
+        const stripped = current.replace(/(<([^>]+)>)/ig, '');
+        const blank = stripped.replace('&nbsp;', '');
+        
+        if(blank.length > 0) {
+            if(stripped.length > 0) without.push(stripped);
+        }
+
+    });
+
+    return without;
+}
+
 module.exports = {
     isEmpty,
     removeBlanks,
     removeTags,
     readLines,
-    getForm
+    getForm,
+    getBetweenArray,
+    getArrayWithoutTags
 }

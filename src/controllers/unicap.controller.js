@@ -1,4 +1,4 @@
-const { getForm, removeTags } = require('../libs/html.lib');
+const { getForm, removeTags, getBetweenArray, getArrayWithoutTags } = require('../libs/html.lib');
 const config = require('../configs/unicap.config');
 const Rotina = require('./rotina.controller');
 const axios = require('axios');
@@ -34,41 +34,68 @@ const getSessionId = async() => {
 const getProfile = async (html) => {
     const sessionId = getAction(html);
     const rotina = await Rotina.rotina11(sessionId);
+    const newSessionId = getAction(rotina);
     const form = getForm(rotina);
 
-    // const profile = {
-    //     academic: {
-    //         matriculation: removeTags(form[12]),
-    //         course: removeTags(form[16]),
-    //         curriculum: removeTags(form[20]),
-    //         shift: removeTags(form[24])
-    //     },
-    //     personal: {
-    //         name: removeTags(form[31]),
-    //         birthdate: removeTags(form[39]),
-    //         naturalness: removeTags(form[43]),
-    //     }, 
-    //     documentation: {
-    //         identity: removeTags(form[66]),
-    //         cpf: removeTags(form[70]),
-    //     },
-    //     contact: {
-    //         email: removeTags(form[]),
-    //         phone_1: removeTags(form[]),
-    //         phone_2: removeTags(form[]),
+    const profile = {
+        sessionId: newSessionId,
+        academic: {
+            matriculation: removeTags(form[12]),
+            course: removeTags(form[16]),
+            curriculum: removeTags(form[20]),
+            shift: removeTags(form[24])
+        },
+        personal: {
+            name: removeTags(form[31]),
+            birthdate: removeTags(form[39]),
+            naturalness: removeTags(form[43]),
+        }, 
+        documentation: {
+            identity: removeTags(form[66]),
+            cpf: removeTags(form[70]),
+        },
+        contact: {
+            email: removeTags(form[108]),
+            phone_1: removeTags(form[112]),
+            phone_2: removeTags(form[116]),
+        }
+    }
 
-    //     }
-    // }
-
-    return form;
+    return profile;
 }
 
+const getSubjects = async (sessionId) => {
+    const rotina = await Rotina.rotina21(sessionId);
+    const newSessionId = getAction(rotina);
+    const formatted = getArrayWithoutTags(getBetweenArray(getForm(rotina), '<table class="tab-main">', '</table>'));
+    
+    const indexStart = 8;
+    const subjects = [];
+    const attributes = ['code', 'name', 'class', 'classroom', 'schedule', 'charge_time', 'credits', 'period'];
+    let i = 0, s = 0;
 
+    formatted.forEach((current, index) => {
+        if(index >= indexStart) {
+            if(i < attributes.length) {
+                if(i === 0) subjects.push({});
+                subjects[s][attributes[i]] = current;
+                i++;
+            }
 
+            if(i === attributes.length) {
+                i = 0;
+                s++;
+            }
+        }
+    });
+
+    return subjects;
+}
 
 module.exports = {
     getAction,
     getErros,
     getSessionId,
-    getProfile
+    getProfile,
+    getSubjects
 };
