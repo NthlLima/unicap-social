@@ -1,4 +1,5 @@
 const { getSessionId, getErros, getProfile, getSubjects } = require('../controllers/unicap.controller');
+const { syncSubjects } = require('../controllers/subjects.controller');
 const Student = require('../controllers/student.controller');
 const config = require('../configs/unicap.config');
 const jwt = require('jsonwebtoken');
@@ -26,18 +27,33 @@ module.exports = {
         // FAZER LOGIN OU FAZER CADASTRO
         const profile = await getProfile(data);
         const student = await Student.login(profile);
+
         
         return {
             student,
             session: profile.sessionId,
-            token: generateToken({ id: student.id })
+            token: generateToken({ id: student._id })
         };
 
     },
 
-    async test({ session }) {
-        // TEM QUE RETIRAR O Total de Cr&eacute;ditos 
-        console.log(await getSubjects(session));
+    async sync({ id, session }){
+        const { sessionId, subjects } = await getSubjects(session);
+        const { subscribe, canSubscribe } = await syncSubjects(id, subjects);
+
+        return {
+            session: sessionId,
+            subscribe,
+            canSubscribe
+        }
+    },
+
+    async test({ session }) {    
+        const id = '5dea1c9878a4bc0930c9aa71';
+        const { sessionId, subjects } = await getSubjects(session);
+        const subjectsSaves = await syncSubjects(id, subjects);
+        
+        console.log(subjectsSaves);
         return { result: ['success'] };
     }
 }

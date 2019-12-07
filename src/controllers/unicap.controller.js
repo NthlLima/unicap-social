@@ -89,7 +89,9 @@ const getSubjects = async (sessionId) => {
         }
     });
 
-    return subjects;
+    subjects.pop();
+
+    return { sessionId: newSessionId, subjects };
 }
 
 module.exports = {

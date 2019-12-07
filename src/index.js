@@ -20,11 +20,13 @@ console.log('Database Connected');
 // SERVER
 const typeDefs = path.resolve(__dirname, './graphql/schema.graphql');
 const resolvers = require('./graphql/resolvers.graphql');
+const middlewares = require('./graphql/middlewares.graphql');
 
 const server = new GraphQLServer({
     typeDefs,
     resolvers,
-    context: req => ({ ...req })
+    context: req => ({ ...req }),
+    middlewares: [middlewares],
 });
 
 server.express.use(cors());

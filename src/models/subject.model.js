@@ -2,16 +2,15 @@ const mongoose = require('mongoose');
 const { MessageSchema } = require('./message.model');
 
 const SubjectSchema = new mongoose.Schema({
+    class: {
+        type: String,
+        required: true,        
+    },
     code: {
         type: String,
         required: true,
-        unique: true, 
     },
     name: {
-        type: String,
-        required: true,
-    },
-    class: {
         type: String,
         required: true,
     },

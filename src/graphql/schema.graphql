@@ -1,9 +1,24 @@
 type Student {
+    _id: ID!,
     name: String!,
     matriculation: String!,
     digit: String!,
     email: String!,
     chats: [ID]!
+}
+
+type Message {
+    _id: ID!,
+    value: String!,
+    sender: Student!
+}
+
+type Subject {
+    _id: ID!,
+    class: String!,
+    code: String!,
+    name: String!,
+    messages: [Message!]!
 }
 
 # RESPONSES
@@ -13,6 +28,12 @@ type Authentication {
     token: String!,
 }
 
+type Sync {
+    session: String!,
+    subscribe: [Subject!]!,
+    canSubscribe: [Subject!]!
+}
+
 type Response {
     result: [String]!
 }
@@ -20,5 +41,6 @@ type Response {
 # ROUTES
 type Query {
     login(matricula: String!, digito: String!, senha: String!): Authentication,
+    sync(session: String!): Sync
     test(session: String!): Response
 }

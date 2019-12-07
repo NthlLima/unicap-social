@@ -1,6 +1,6 @@
 const { Student } = require('../models/student.model');
 
-const register = async(profile) => {
+const store = async(profile) => {
     const {
         academic: { matriculation },
         personal: { name },
@@ -27,21 +27,16 @@ const register = async(profile) => {
 const login = async(profile) => {
     const { academic: { matriculation } } = profile;
     const [ mat, digit ] = matriculation.split('-');
-    const student = await Student.findOne({ matriculation: mat, digit });
+    const student = await Student.findOne({ matriculation: mat, digit }).lean();
 
     if(!student) {
-        return await register(profile);
+        return await store(profile);
     }
 
     return student;
 }
 
-const chats = async() => {
-
-}
-
 module.exports = {
     login,
-    register,
-    chats
+    store
 }
