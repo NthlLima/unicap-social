@@ -4,13 +4,14 @@ type Student {
     matriculation: String!,
     digit: String!,
     email: String!,
-    chats: [ID]!
+    chats: [ID]!,
+    subjects: [ID]!,
 }
 
 type Message {
     _id: ID!,
     value: String!,
-    sender: Student!
+    sender: String!
 }
 
 type Subject {
@@ -18,6 +19,7 @@ type Subject {
     class: String!,
     code: String!,
     name: String!,
+    initial: String!,
     messages: [Message!]!
 }
 
@@ -35,12 +37,25 @@ type Sync {
 }
 
 type Response {
+    session: String!,
+    subjects: [Subject!]!
+}
+
+type Responses {
     result: [String]!
 }
 
 # ROUTES
 type Query {
-    login(matricula: String!, digito: String!, senha: String!): Authentication,
+    test(session: String!): Responses
+    subjects: [Subject!]!
+    subscribes: [Subject!]!
+    messages(chat: ID!): [Message!]!
+}
+
+type Mutation {
+    login(matricula: String!, digito: String!, senha: String!): Authentication
+    subscription(subject: ID!): [Subject!]!
+    send(chat: String!, message: String!): [Message!]!
     sync(session: String!): Sync
-    test(session: String!): Response
 }

@@ -21,7 +21,11 @@ const StudentSchema = new mongoose.Schema({
     chats: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Subject'
-    }
+    },
+    subjects: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Subject'
+    },
 });
 
 const Student = mongoose.model('Student', StudentSchema);

@@ -2,9 +2,13 @@ const auth = require('../middlewares/auth.middleware');
 
 module.exports = {
     Query: {
-        sync: auth,
+        messages: auth,
+        subjects: auth,
+        subscribes: auth,
     },
-    // Mutation: {
-
-    // }
+    Mutation: {
+        subscription: auth,
+        send: auth,
+        sync: auth,
+    }
 }

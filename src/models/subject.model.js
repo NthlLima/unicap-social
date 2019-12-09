@@ -14,6 +14,10 @@ const SubjectSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    initial: {
+        type: String,
+        required: true,
+    },
     messages: [MessageSchema],
     created_at: {
         type: Date,

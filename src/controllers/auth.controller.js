@@ -21,13 +21,12 @@ module.exports = {
         const { data } = await axios.post(`${config.url}${sessionId}`, params);
         const hasError = getErros(data);
         if(hasError) {
-            return { result: hasError };
+            throw new Error(hasError);
         }
 
         // FAZER LOGIN OU FAZER CADASTRO
         const profile = await getProfile(data);
         const student = await Student.login(profile);
-
         
         return {
             student,
