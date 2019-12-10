@@ -11,7 +11,8 @@ type Student {
 type Message {
     _id: ID!,
     value: String!,
-    sender: String!
+    created_at: String!,
+    sender: Student!,
 }
 
 type Subject {
@@ -20,6 +21,7 @@ type Subject {
     code: String!,
     name: String!,
     initial: String!,
+    message: Message,
     messages: [Message!]!
 }
 

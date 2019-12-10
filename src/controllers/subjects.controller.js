@@ -1,5 +1,6 @@
 const { Subject } = require('../models/subject.model');
 const { Student } = require('../models/student.model');
+const { getLastMessage } = require('./message.controller');
 
 const syncSubjects = async (id, subjects) => {
     const student = await Student.findById(id);
@@ -104,7 +105,10 @@ module.exports = {
 
         for (let i = 0; i < chats.length; i++) {
             const s = chats[i];
-            const subject = await Subject.findById(s)
+            const subject = await Subject.findById(s).populate('messages.sender').lean();
+            subject.message = getLastMessage(subject.messages);
+            delete subject.messages; 
+            subject.messages = [];
             
             if(subject) itens.push(subject);
         }

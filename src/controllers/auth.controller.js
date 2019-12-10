@@ -52,7 +52,6 @@ module.exports = {
         const { sessionId, subjects } = await getSubjects(session);
         const subjectsSaves = await syncSubjects(id, subjects);
         
-        console.log(subjectsSaves);
         return { result: ['success'] };
     }
 }
