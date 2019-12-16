@@ -55,7 +55,7 @@ module.exports = {
 
         return formatDateMessages(messages);
     },
-    async send({ id, chat, message }) {
+    async send({ id, chat, message, pubsub }) {
         const subject = await Subject.findById(chat);
 
         if(!subject) {
@@ -70,7 +70,10 @@ module.exports = {
         await subject.save();
 
         const { messages } = await Subject.findById(chat).populate('messages.sender').lean();
+        const formated = formatDateMessages(messages);
+        
+        pubsub.publish('CHAT_CHANNEL', { messageSent: formated[formated.length - 1] });
 
-        return formatDateMessages(messages);
+        return formated;
     }
 }

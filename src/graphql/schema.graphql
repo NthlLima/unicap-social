@@ -53,11 +53,17 @@ type Query {
     subjects: [Subject!]!
     subscribes: [Subject!]!
     messages(chat: ID!): [Message!]!
+    sent(chat: ID!, message: String!): [Message!]!
 }
 
 type Mutation {
     login(matricula: String!, digito: String!, senha: String!): Authentication
     subscription(subject: ID!): [Subject!]!
-    send(chat: String!, message: String!): [Message!]!
+    send(chat: ID!, message: String!): [Message!]!
     sync(session: String!): Sync
+    message(chat: ID!, message: String!): [Message!]!
+}
+
+type Subscription  {
+    messageSent: Message
 }
