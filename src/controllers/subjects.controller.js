@@ -130,7 +130,7 @@ module.exports = {
 
         return itens;
     },
-    async subscription({ id, subject }) {
+    async subscription({ id, subject, pubsub }) {
         const student = await Student.findById(id);
         const find = await Subject.findById(subject);
 
@@ -150,6 +150,8 @@ module.exports = {
                 if(!contain(s, chats)) itens.push(subject);
             }
         }
+
+        pubsub.publish('SUBJECT_SUBSCRIBED', { subjectSubscribed: { response: 'success' } });
 
         return itens;
     }

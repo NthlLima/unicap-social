@@ -70,7 +70,7 @@ type ResponseSchedule {
 }
 
 type Responses {
-    result: [String]!
+    response: String!
 }
 
 # ROUTES
@@ -93,4 +93,5 @@ type Mutation {
 
 type Subscription  {
     messageSent: Message
+    subjectSubscribed: Responses
 }
