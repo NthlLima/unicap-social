@@ -13,10 +13,11 @@ module.exports = {
     },
     Mutation: {
         login: (_, { matricula, digito, senha }) => Auth.login({ matricula, digito, senha }),
-        subscription: (_, { subject }, ctx) => Subject.subscription({ subject, id: ctx.userId }),
-        send: (_, { chat, message }, ctx) => Message.send({ id: ctx.userId, chat, message }),
-        sync: (_, { session }, ctx) => Auth.sync({ id: ctx.userId, session }),
         message: (_, { chat, message }, { userId, pubsub }) => Message.send({ pubsub, id: userId, chat, message }),
+        schedule: (_, { session }, ctx) => Auth.schedule({ session }),
+        send: (_, { chat, message }, ctx) => Message.send({ id: ctx.userId, chat, message }),
+        subscription: (_, { subject }, ctx) => Subject.subscription({ subject, id: ctx.userId }),
+        sync: (_, { session }, ctx) => Auth.sync({ id: ctx.userId, session }),
     },
     Subscription: {
         messageSent: {

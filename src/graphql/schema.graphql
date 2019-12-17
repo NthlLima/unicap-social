@@ -25,6 +25,27 @@ type Subject {
     messages: [Message!]!
 }
 
+type DefaultSubject {
+    code: String!,
+    name: String!,
+    class: String!,
+    classroom: String!,
+    schedule: String!,
+    charge_time: String!,
+    credits: String!,
+    period: String!,
+}
+
+type Grade {
+    schedule: String!,
+    subject: DefaultSubject!
+}
+
+type Schedule {
+    title: String!,
+    grade: [Grade!]!
+}
+
 # RESPONSES
 type Authentication {
     student: Student!,
@@ -43,13 +64,18 @@ type Response {
     subjects: [Subject!]!
 }
 
+type ResponseSchedule {
+    session: String!,
+    schedules: [Schedule!]!
+}
+
 type Responses {
     result: [String]!
 }
 
 # ROUTES
 type Query {
-    test(session: String!): Responses
+    test(session: String!): [Schedule!]!
     subjects: [Subject!]!
     subscribes: [Subject!]!
     messages(chat: ID!): [Message!]!
@@ -58,10 +84,11 @@ type Query {
 
 type Mutation {
     login(matricula: String!, digito: String!, senha: String!): Authentication
-    subscription(subject: ID!): [Subject!]!
-    send(chat: ID!, message: String!): [Message!]!
-    sync(session: String!): Sync
     message(chat: ID!, message: String!): [Message!]!
+    schedule(session: String!): ResponseSchedule
+    send(chat: ID!, message: String!): [Message!]!
+    subscription(subject: ID!): [Subject!]!
+    sync(session: String!): Sync
 }
 
 type Subscription  {

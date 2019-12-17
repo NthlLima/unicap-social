@@ -12,5 +12,6 @@ module.exports = {
         send: auth,
         sync: auth,
         message: auth,
+        schedule: auth,
     }
 }

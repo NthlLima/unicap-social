@@ -1,4 +1,4 @@
-const { getSessionId, getErros, getProfile, getSubjects } = require('../controllers/unicap.controller');
+const { getSessionId, getErros, getProfile, getSubjects, sortSubjects, formatGrade } = require('../controllers/unicap.controller');
 const { syncSubjects } = require('../controllers/subjects.controller');
 const Student = require('../controllers/student.controller');
 const config = require('../configs/unicap.config');
@@ -47,11 +47,23 @@ module.exports = {
         }
     },
 
+    async schedule({ session }) {
+        const { sessionId, grade } = await sortSubjects(session);
+        const formated = formatGrade(grade);
+
+        return {
+            session: sessionId,
+            schedules: formated
+        }
+    },
+
     async test({ session }) {    
-        const id = '5dea1c9878a4bc0930c9aa71';
-        const { sessionId, subjects } = await getSubjects(session);
-        const subjectsSaves = await syncSubjects(id, subjects);
+        const { sessionId, grade } = await sortSubjects(session);
+        const formated = formatGrade(grade);
         
-        return { result: ['success'] };
+
+
+        return formated;
     }
 }
+
